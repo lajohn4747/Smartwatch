@@ -1,0 +1,2 @@
+// Code example for integrating mouse. We had discussed using infrared laser for detecting position, but it may be enough to take advantage of the gyroscope that we have.
+// https://www.arduino.cc/en/Reference/MouseMove
