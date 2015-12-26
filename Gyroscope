@@ -1,3 +1,5 @@
 //Code for the adafruit L3GD2OH Gyroscope/LSM303DLHC Accelerometer
 // Find example below:
 // https://learn.adafruit.com/adafruit-triple-axis-gyro-breakout/programming
+// Data Sheet for the Gyroscope:
+// https://www.adafruit.com/datasheets/L3GD20H.pdf
