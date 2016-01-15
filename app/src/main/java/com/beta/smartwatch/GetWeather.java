@@ -27,12 +27,26 @@ public class GetWeather extends AsyncTask<String, String, String> {
         String hourly = "3";
         String format = "json";
         String response = "No response";
+        String URLRequest = URLString + key + "&q=" + latitude + "," + longitude + "&num_of_days=" + day_num + "&tp=" + hourly + "&format=" + format;
+        Log.d("Request",URLRequest);
         try {
-            String URLRequest = URLString + key + "&q=" + latitude + "," + longitude + "&num_of_days=" + day_num + "&tp=" + hourly + "&format=" + format;
-            Log.d("Request",URLRequest);
+
             URL url = new URL(URLRequest);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            InputStreamReader in = new InputStreamReader(urlConnection.getInputStream());
+            final HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("GET");
+            if (urlConnection == null) {
+                Log.d("URL Connection","Null");
+                return response;
+            } else {
+                Log.d("URL Connection", urlConnection.toString());
+            }
+
+            InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
+            InputStreamReader in = new InputStreamReader(inputStream);
+            if (in == null) {
+                Log.d("Input Stream","Null");
+                return response;
+            }
             BufferedReader br = new BufferedReader(in);
             String line;
             response = "";

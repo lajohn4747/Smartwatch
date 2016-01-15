@@ -4,10 +4,11 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
@@ -16,17 +17,27 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
-import java.util.HashMap;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     GoogleApiClient mGoogleApiClient;
     String mLatitudeText;
     String mLongitudeText;
+    private static MainActivity instance;
 
     public MainActivity() {
         mGoogleApiClient = null;
         mLatitudeText = null;
         mLongitudeText = null;
+        instance = this;
+    }
+
+    public static MainActivity getInstance() {
+        return instance;
     }
 
     @Override
@@ -97,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             return;
         }
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        Log.d("Location",mLastLocation.toString());
+        Log.d("Location", mLastLocation.toString());
             if (mLastLocation != null) {
                 mLatitudeText = String.valueOf(mLastLocation.getLatitude());
                 mLongitudeText = String.valueOf(mLastLocation.getLongitude());
@@ -105,7 +116,25 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 Log.d("Longitude", mLongitudeText);
                 Toast.makeText(MainActivity.this, "Latitude: " + mLatitudeText + "\n" + "Longitude: " + mLongitudeText, Toast.LENGTH_LONG);
                 GetWeather weatherRequest = new GetWeather();
-                weatherRequest.doInBackground(mLatitudeText,mLongitudeText);
+                try {
+                    String weatherResponse = weatherRequest.execute(mLatitudeText,mLongitudeText).get();
+                    JSONObject weather = new JSONObject(weatherResponse);
+                    Log.d("Weather", weather.toString());
+                    JSONObject data = weather.getJSONObject("data");
+                    Log.d("Data", data.toString());
+                    JSONArray current_condition = data.getJSONArray("current_condition");
+                    JSONObject current = (JSONObject) current_condition.get(0);
+                    Log.d("Current Condition", current.toString());
+                    String feels_like = current.getString("FeelsLikeF");
+                    TextView weatherTextView = (TextView) findViewById(R.id.Weather);
+                    weatherTextView.setText("Weather\nFeels Like: " + feels_like);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
 
@@ -119,5 +148,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Toast.makeText(MainActivity.this, "Location Service Not Connected", Toast.LENGTH_SHORT).show();
+    }
+
+    public void updateLastText(String update) {
+        TextView lastText = (TextView) findViewById(R.id.last_text);
+        lastText.setText(update);
+
     }
 }

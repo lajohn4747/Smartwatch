@@ -9,8 +9,28 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.beta.smartwatch.MainActivity">
 
+    <TextClock
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="time"
+        android:ems="10"
+        android:id="@+id/Time"
+        android:layout_alignParentStart="true" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:id="@+id/last_text"
+        android:layout_below="@+id/Time"
+        android:layout_alignParentStart="true"
+        android:text="Last Text:"
+        android:editable="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Weather"
+        android:layout_below="@+id/last_text"
+        android:layout_alignParentStart="true"
+        android:text="Weather:" />
 </RelativeLayout>
