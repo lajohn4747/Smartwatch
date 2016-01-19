@@ -33,4 +33,31 @@
         android:layout_below="@+id/last_text"
         android:layout_alignParentStart="true"
         android:text="Weather:" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/Weather"
+        android:layout_alignParentStart="true">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Previous"
+            android:onClick="previous" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/TogglePause"
+            android:onClick="togglePause" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Next"
+            android:onClick="next" />
+    </LinearLayout>
+
 </RelativeLayout>

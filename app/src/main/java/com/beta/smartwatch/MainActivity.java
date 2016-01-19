@@ -1,13 +1,17 @@
 package com.beta.smartwatch;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +32,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     String mLatitudeText;
     String mLongitudeText;
     private static MainActivity instance;
+    public static final String CMDTOGGLEPAUSE = "togglepause";
+    public static final String CMDPAUSE = "pause";
+    public static final String CMDPREVIOUS = "previous";
+    public static final String CMDNEXT = "next";
+    public static final String SERVICECMD = "com.android.music.musicservicecommand";
+    public static final String CMDNAME = "command";
+    public static final String CMDSTOP = "stop";
 
     public MainActivity() {
         mGoogleApiClient = null;
@@ -154,5 +165,38 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         TextView lastText = (TextView) findViewById(R.id.last_text);
         lastText.setText(update);
 
+    }
+
+    public void previous(View view) {
+        AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        Log.d("Previous","Clicked");
+        if(mAudioManager.isMusicActive()) {
+            Intent i = new Intent(SERVICECMD);
+            i.putExtra(CMDNAME , CMDPREVIOUS );
+            MainActivity.this.sendBroadcast(i);
+        }
+    }
+
+    public void togglePause(View view) {
+        AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        Log.d("TogglePause","Clicked");
+        Log.d("AudioMode",Integer.toString(mAudioManager.getMode()));
+
+        if(mAudioManager.isMusicActive()) {
+            Intent i = new Intent(SERVICECMD);
+            i.putExtra(CMDNAME , CMDPAUSE );
+            MainActivity.this.sendBroadcast(i);
+        }
+        Log.d("AudioMode",Integer.toString(mAudioManager.getMode()));
+    }
+
+    public void next(View view) {
+        AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        Log.d("Next","Clicked");
+        if(mAudioManager.isMusicActive()) {
+            Intent i = new Intent(SERVICECMD);
+            i.putExtra(CMDNAME , CMDNEXT );
+            MainActivity.this.sendBroadcast(i);
+        }
     }
 }
