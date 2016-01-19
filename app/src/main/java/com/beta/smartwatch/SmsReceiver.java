@@ -30,6 +30,7 @@ public class SmsReceiver extends BroadcastReceiver {
 
                     String senderNum = phoneNumber;
                     String message = currentMessage.getDisplayMessageBody();
+                    MainActivity.getInstance().textToBT(message);
 
                     Log.d("SmsReceiver", "senderNum: " + senderNum + "; message: " + message);
                     MainActivity mainActivity = MainActivity.getInstance();
