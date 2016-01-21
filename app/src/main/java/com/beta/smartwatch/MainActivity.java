@@ -39,6 +39,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.Timer;
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     private static final int REQUEST_ENABLE_BT = 1;
     private final String delimiter = "&;";
+    private HashMap<String,String> weatherMap;
 
     BluetoothAdapter bluetoothAdapter;
 
@@ -91,6 +93,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         mLatitudeText = null;
         mLongitudeText = null;
         instance = this;
+        weatherMap = new HashMap<String,String>();
+        weatherMap.put("fee","Feels Like");
+        weatherMap.put("hum","Humidity");
+        weatherMap.put("tmp","Temperature");
+        weatherMap.put("pre","Precipitation");
+        weatherMap.put("des","Description");
+        weatherMap.put("sur","Sunrise");
+        weatherMap.put("sus","Sunset");
+        weatherMap.put("hig","High");
+        weatherMap.put("low","Low");
     }
 
     public static MainActivity getInstance() {
@@ -213,7 +225,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 mLongitudeText = String.valueOf(mLastLocation.getLongitude());
                 Log.d("Latitude",mLatitudeText);
                 Log.d("Longitude", mLongitudeText);
-                Toast.makeText(MainActivity.this, "Latitude: " + mLatitudeText + "\n" + "Longitude: " + mLongitudeText, Toast.LENGTH_LONG).show();
+                TextView locationTextView = (TextView) findViewById(R.id.Location);
+                locationTextView.setText("Location:\n" + "Latitude: " + mLatitudeText + "\n" + "Longitude: " + mLongitudeText);
                 GetWeather weatherRequest = new GetWeather();
                 try {
                     String weatherResponse = weatherRequest.execute(mLatitudeText,mLongitudeText).get();
@@ -244,7 +257,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     weatherDescription = "fee " + feels_like+ "hum " + humidity + "tmp " + temperature
                             + "pre " + precipitation + "des " + description + "sur " + sunrise +
                             "sus " + sunset + "hig " + high + "low " + low;
+                    TextView weatherTextView = (TextView) findViewById(R.id.weather);
+                    String wText = "";
+                    for (String w:weatherArray) {
+                        Log.d("Weather",w);
+                        if (weatherMap.containsKey(w)) {
+                            wText += weatherMap.get(w) + ":";
+                        } else {
+                            wText += w + "\n";
+                        }
 
+                    }
+                    TextView temperatureTextView = (TextView) findViewById(R.id.Temperature);
+                    temperatureTextView.setText("Temperature:\n" + temperature);
+                    weatherTextView.setText(wText);
                     //TextView weatherTextView = (TextView) findViewById(R.id.Weather);
                     //weatherTextView.setText("Weather\nFeels Like: " + feels_like);
                 } catch (InterruptedException e) {
@@ -270,7 +296,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     public void updateLastText(String update) {
-        TextView lastText = (TextView) findViewById(R.id.last_text);
+        TextView lastText = (TextView) findViewById(R.id.LastText);
         lastText.setText(update);
 
     }
