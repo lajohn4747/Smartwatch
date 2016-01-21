@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_maintest);
 
         // Create an instance of GoogleAPIClient.
         if (mGoogleApiClient == null) {
@@ -139,7 +139,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         String stInfo = bluetoothAdapter.getName() + "\n" +
                 bluetoothAdapter.getAddress();
-        textInfo.setText(stInfo);
     }
 
     @Override
@@ -246,8 +245,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                             + "pre " + precipitation + "des " + description + "sur " + sunrise +
                             "sus " + sunset + "hig " + high + "low " + low;
 
-                    TextView weatherTextView = (TextView) findViewById(R.id.Weather);
-                    weatherTextView.setText("Weather\nFeels Like: " + feels_like);
+                    //TextView weatherTextView = (TextView) findViewById(R.id.Weather);
+                    //weatherTextView.setText("Weather\nFeels Like: " + feels_like);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
@@ -360,7 +359,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                             if (weatherString.length() > 0) {
                                 weatherStringsToSend.add(weatherString);
                             }
-                            Log.d("Weather Strings", weatherStringsToSend.toString());
+                            Log.d("Bluetooth Message(s)", weatherStringsToSend.toString());
                             for (String sendString:weatherStringsToSend) {
                                 //byte[] bytesToSend = weatherDescription.getBytes();
                                 byte[] bytesToSend = sendString.getBytes();
