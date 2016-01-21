@@ -37,11 +37,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     GoogleApiClient mGoogleApiClient;
@@ -67,7 +69,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     Timer timer;
     TimerTask timerTask;
     final Handler handler = new Handler();
-    private final int timeInterval = 600000;
+    private final int timeInterval = 50000;
+    public String weatherDescription;
+    public Calendar cal = Calendar.getInstance();
+    public String date = cal.getTime().toString();
 
     ArrayAdapter<BluetoothDevice> pairedDeviceAdapter;
     private UUID myUUID;
@@ -215,8 +220,27 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     Log.d("Data", data.toString());
                     JSONArray current_condition = data.getJSONArray("current_condition");
                     JSONObject current = (JSONObject) current_condition.get(0);
+                    JSONArray weatherDescArr = current.getJSONArray("weatherDesc");
+                    JSONObject weatherDesc = (JSONObject) weatherDescArr.get(0);
+                    JSONArray weatherArr = data.getJSONArray("weather");
+                    JSONObject weat = (JSONObject) weatherArr.get(0);
+                    JSONArray astronomyArr = weat.getJSONArray("astronomy");
+                    JSONObject astronomy = (JSONObject) astronomyArr.get(0);
+
                     Log.d("Current Condition", current.toString());
-                    String feels_like = current.getString("FeelsLikeF");
+                    String feels_like = current.getString("FeelsLikeF") + ";";
+                    String humidity = current.getString("humidity") + ";";
+                    String temperature = current.getString("temp_F") + ";";
+                    String precipitation = current.getString("precipMM")+ ";";
+                    String description = weatherDesc.getString("value") + ";";
+                    String sunrise = astronomy.getString("sunrise") + ";";
+                    String sunset = astronomy.getString("sunset") + ";";
+                    String high = weat.getString("maxtempF") + ";";
+                    String low = weat.getString("mintempF") + ";";
+                    weatherDescription = "fee " + feels_like+ "hum " + humidity + "tmp " + temperature
+                            + "pre " + precipitation + "des " + description + "sur " + sunrise +
+                            "sus " + sunset + "hig " + high + "low " + low;
+
                     TextView weatherTextView = (TextView) findViewById(R.id.Weather);
                     weatherTextView.setText("Weather\nFeels Like: " + feels_like);
                 } catch (InterruptedException e) {
@@ -309,10 +333,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             public void run() {
                 handler.post(new Runnable(){
                     public void run(){
-                        if(myThreadConnected!=null){
-                            byte[] bytesToSend = "yo".getBytes();
+                        if(myThreadConnected!=null && weatherDescription != null){
+                            byte[] bytesToSend = weatherDescription.getBytes();
                             myThreadConnected.write(bytesToSend);
                             byte[] NewLine = "\n".getBytes();
+                            myThreadConnected.write(NewLine);
+                            try {
+                                TimeUnit.SECONDS.sleep(1);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            byte[] dateBytes = date.getBytes();
+                            myThreadConnected.write(dateBytes);
                             myThreadConnected.write(NewLine);
                         }
                     }

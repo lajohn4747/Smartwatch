@@ -23,7 +23,7 @@ public class GetWeather extends AsyncTask<String, String, String> {
         String key = "cb0d2e574d06d01aca1c6cc9fbabb";
         String latitude = params[0].substring(0,params[0].indexOf('.')+4);
         String longitude = params[1].substring(0,params[1].indexOf('.')+4);
-        String day_num = "2";
+        String day_num = "1";
         String hourly = "3";
         String format = "json";
         String response = "No response";
