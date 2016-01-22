@@ -74,11 +74,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     Timer timer;
     TimerTask timerTask;
     final Handler handler = new Handler();
-    private final int timeInterval = 50000;
+    private final int timeInterval = 15000;
     private List<String> weatherArray;
     public String weatherDescription;
     public Calendar cal = Calendar.getInstance();
     public String date = cal.getTime().toString();
+    public String day = date.substring(0,10);
+    public String time = date.substring(11,16);
 
     ArrayAdapter<BluetoothDevice> pairedDeviceAdapter;
     private UUID myUUID;
@@ -103,6 +105,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         weatherMap.put("sus","Sunset");
         weatherMap.put("hig","High");
         weatherMap.put("low","Low");
+        weatherMap.put("clk","Time");
+        weatherMap.put("dat","Date");
     }
 
     public static MainActivity getInstance() {
@@ -220,67 +224,67 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         Log.d("Location", mLastLocation.toString());
-            if (mLastLocation != null) {
-                mLatitudeText = String.valueOf(mLastLocation.getLatitude());
-                mLongitudeText = String.valueOf(mLastLocation.getLongitude());
-                Log.d("Latitude",mLatitudeText);
-                Log.d("Longitude", mLongitudeText);
-                TextView locationTextView = (TextView) findViewById(R.id.Location);
-                locationTextView.setText("Location:\n" + "Latitude: " + mLatitudeText + "\n" + "Longitude: " + mLongitudeText);
-                GetWeather weatherRequest = new GetWeather();
-                try {
-                    String weatherResponse = weatherRequest.execute(mLatitudeText,mLongitudeText).get();
-                    JSONObject weather = new JSONObject(weatherResponse);
-                    Log.d("Weather", weather.toString());
-                    JSONObject data = weather.getJSONObject("data");
-                    Log.d("Data", data.toString());
-                    JSONArray current_condition = data.getJSONArray("current_condition");
-                    JSONObject current = (JSONObject) current_condition.get(0);
-                    JSONArray weatherDescArr = current.getJSONArray("weatherDesc");
-                    JSONObject weatherDesc = (JSONObject) weatherDescArr.get(0);
-                    JSONArray weatherArr = data.getJSONArray("weather");
-                    JSONObject weat = (JSONObject) weatherArr.get(0);
-                    JSONArray astronomyArr = weat.getJSONArray("astronomy");
-                    JSONObject astronomy = (JSONObject) astronomyArr.get(0);
+        if (mLastLocation != null) {
+            mLatitudeText = String.valueOf(mLastLocation.getLatitude());
+            mLongitudeText = String.valueOf(mLastLocation.getLongitude());
+            Log.d("Latitude",mLatitudeText);
+            Log.d("Longitude", mLongitudeText);
+            TextView locationTextView = (TextView) findViewById(R.id.Location);
+            locationTextView.setText("Location:\n" + "Latitude: " + mLatitudeText + "\n" + "Longitude: " + mLongitudeText);
+            GetWeather weatherRequest = new GetWeather();
+            try {
+                String weatherResponse = weatherRequest.execute(mLatitudeText,mLongitudeText).get();
+                JSONObject weather = new JSONObject(weatherResponse);
+                Log.d("Weather", weather.toString());
+                JSONObject data = weather.getJSONObject("data");
+                Log.d("Data", data.toString());
+                JSONArray current_condition = data.getJSONArray("current_condition");
+                JSONObject current = (JSONObject) current_condition.get(0);
+                JSONArray weatherDescArr = current.getJSONArray("weatherDesc");
+                JSONObject weatherDesc = (JSONObject) weatherDescArr.get(0);
+                JSONArray weatherArr = data.getJSONArray("weather");
+                JSONObject weat = (JSONObject) weatherArr.get(0);
+                JSONArray astronomyArr = weat.getJSONArray("astronomy");
+                JSONObject astronomy = (JSONObject) astronomyArr.get(0);
 
-                    Log.d("Current Condition", current.toString());
-                    String feels_like = current.getString("FeelsLikeF");
-                    String humidity = current.getString("humidity");
-                    String temperature = current.getString("temp_F");
-                    String precipitation = current.getString("precipMM");
-                    String description = weatherDesc.getString("value");
-                    String sunrise = astronomy.getString("sunrise");
-                    String sunset = astronomy.getString("sunset");
-                    String high = weat.getString("maxtempF");
-                    String low = weat.getString("mintempF");
-                    weatherArray = Arrays.asList("fee",feels_like,"hum",humidity,"tmp",temperature,"pre",precipitation,"des",description,"sur",sunrise,"sus",sunset,"hig",high,"low",low);
-                    weatherDescription = "fee " + feels_like+ "hum " + humidity + "tmp " + temperature
-                            + "pre " + precipitation + "des " + description + "sur " + sunrise +
-                            "sus " + sunset + "hig " + high + "low " + low;
-                    TextView weatherTextView = (TextView) findViewById(R.id.weather);
-                    String wText = "";
-                    for (String w:weatherArray) {
-                        Log.d("Weather",w);
-                        if (weatherMap.containsKey(w)) {
-                            wText += weatherMap.get(w) + ":";
-                        } else {
-                            wText += w + "\n";
-                        }
-
+                Log.d("Current Condition", current.toString());
+                String feels_like = current.getString("FeelsLikeF");
+                String humidity = current.getString("humidity");
+                String temperature = current.getString("temp_F");
+                String precipitation = current.getString("precipMM");
+                String description = weatherDesc.getString("value");
+                String sunrise = astronomy.getString("sunrise");
+                String sunset = astronomy.getString("sunset");
+                String high = weat.getString("maxtempF");
+                String low = weat.getString("mintempF");
+                weatherArray = Arrays.asList("dat",day,"clk",time,"fee",feels_like,"hum",humidity,"tmp",temperature,"pre",precipitation,"des",description,"sur",sunrise,"sus",sunset,"hig",high,"low",low);
+                weatherDescription = "fee " + feels_like+ "hum " + humidity + "tmp " + temperature
+                        + "pre " + precipitation + "des " + description + "sur " + sunrise +
+                        "sus " + sunset + "hig " + high + "low " + low;
+                TextView weatherTextView = (TextView) findViewById(R.id.weather);
+                String wText = "";
+                for (String w:weatherArray) {
+                    Log.d("Weather",w);
+                    if (weatherMap.containsKey(w)) {
+                        wText += weatherMap.get(w) + ":";
+                    } else {
+                        wText += w +  "\n";
                     }
-                    TextView temperatureTextView = (TextView) findViewById(R.id.Temperature);
-                    temperatureTextView.setText("Temperature:\n" + temperature);
-                    weatherTextView.setText(wText);
-                    //TextView weatherTextView = (TextView) findViewById(R.id.Weather);
-                    //weatherTextView.setText("Weather\nFeels Like: " + feels_like);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+
                 }
+                TextView temperatureTextView = (TextView) findViewById(R.id.Temperature);
+                temperatureTextView.setText("Temperature:\n" + temperature);
+                weatherTextView.setText(wText);
+                //TextView weatherTextView = (TextView) findViewById(R.id.Weather);
+                //weatherTextView.setText("Weather\nFeels Like: " + feels_like);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+        }
 
 
     }
@@ -367,17 +371,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                             int char_num = 0;
                             List<String> weatherStringsToSend = new ArrayList<String>();
                             String weatherString = "";
-                            for (String weatherItem:weatherArray) {
-                                Log.d("Weather Item",weatherItem);
-                                char_num += weatherItem.length() + delimiter.length();
+                            for (int i = 0;i<weatherArray.size();i+=2) {
+                                //for (String weatherItem:weatherArray) {
+                                String weatherTag = weatherArray.get(i);
+                                String weatherItem = weatherArray.get(i+1);
+                                Log.d("Weather Item",weatherTag + ":" + weatherItem);
+                                char_num += weatherTag.length() + weatherItem.length() + 2*delimiter.length();
                                 Log.d("Character Number",Integer.toString(char_num));
                                 if (char_num > 95) {
                                     weatherStringsToSend.add(weatherString);
                                     Log.d("Weather String Added", weatherString);
-                                    char_num = weatherItem.length() + delimiter.length();
-                                    weatherString = weatherItem + delimiter;
+                                    char_num = weatherItem.length() + weatherItem.length() + 2*delimiter.length();
+                                    weatherString = weatherTag + delimiter + weatherItem + delimiter;
                                 } else {
-                                    weatherString += weatherItem + delimiter;
+                                    weatherString += weatherTag + delimiter +  weatherItem + delimiter;
                                     Log.d("Weather String Appended", weatherString);
                                 }
                             }
@@ -387,19 +394,21 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                             }
                             Log.d("Bluetooth Message(s)", weatherStringsToSend.toString());
                             for (String sendString:weatherStringsToSend) {
+                                Log.d("Sending Following",sendString);
                                 //byte[] bytesToSend = weatherDescription.getBytes();
                                 byte[] bytesToSend = sendString.getBytes();
                                 myThreadConnected.write(bytesToSend);
                                 byte[] NewLine = "\n".getBytes();
                                 myThreadConnected.write(NewLine);
+
                                 try {
                                     TimeUnit.SECONDS.sleep(1);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
-                                byte[] dateBytes = date.getBytes();
-                                myThreadConnected.write(dateBytes);
-                                myThreadConnected.write(NewLine);
+                                //byte[] dateBytes = date.getBytes();
+                                //myThreadConnected.write(dateBytes);
+                                //myThreadConnected.write(NewLine);
                             }
                         }
                     }
