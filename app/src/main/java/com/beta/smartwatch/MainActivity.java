@@ -376,15 +376,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                                 String weatherTag = weatherArray.get(i);
                                 String weatherItem = weatherArray.get(i+1);
                                 Log.d("Weather Item",weatherTag + ":" + weatherItem);
-                                char_num += weatherTag.length() + weatherItem.length() + 2*delimiter.length();
+                                char_num += weatherTag.length() + weatherItem.length() + delimiter.length();
                                 Log.d("Character Number",Integer.toString(char_num));
                                 if (char_num > 95) {
                                     weatherStringsToSend.add(weatherString);
                                     Log.d("Weather String Added", weatherString);
-                                    char_num = weatherItem.length() + weatherItem.length() + 2*delimiter.length();
-                                    weatherString = weatherTag + delimiter + weatherItem + delimiter;
+                                    char_num = weatherItem.length() + weatherItem.length() + delimiter.length();
+                                    weatherString = weatherTag + weatherItem + delimiter;
                                 } else {
-                                    weatherString += weatherTag + delimiter +  weatherItem + delimiter;
+                                    weatherString += weatherTag +  weatherItem + delimiter;
                                     Log.d("Weather String Appended", weatherString);
                                 }
                             }
