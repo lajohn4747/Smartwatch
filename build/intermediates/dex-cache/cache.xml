@@ -1,2 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
+
+    <item
+        jar="C:\Users\Andrew\Documents\GitHub\Smartwatch\Smartwatch\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\libs\internal_impl-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="C:\Users\Andrew\Documents\GitHub\Smartwatch\Smartwatch\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.1_d21979d12dc612a54d669ec4c3b43202b81f2e73.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andrew\Documents\GitHub\Smartwatch\Smartwatch\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-location\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a8412b654dab86d57bf90683367488211c8a81f1">
+        <dex dex="C:\Users\Andrew\Documents\GitHub\Smartwatch\Smartwatch\app\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-location-8.4.0_6dee231beb7e0b50d4da64a77ddae9b7c49f4aa0.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andrew\Documents\GitHub\Smartwatch\Smartwatch\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="65d086ee9daaf87b5af62ad24471edafa433354c">
+        <dex dex="C:\Users\Andrew\Documents\GitHub\Smartwatch\Smartwatch\app\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-appindexing-8.4.0_10923ba2b90941ef2e0ca641753b66b6900d4fea.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andrew\Documents\GitHub\Smartwatch\Smartwatch\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
+        <dex dex="C:\Users\Andrew\Documents\GitHub\Smartwatch\Smartwatch\app\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-basement-8.4.0_6fd5cd22d45d397cbbc3df6e0a493d28d873a3e1.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andrew\Documents\GitHub\Smartwatch\Smartwatch\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="04de44f90606c77f3b28cf44861f306290505aac">
+        <dex dex="C:\Users\Andrew\Documents\GitHub\Smartwatch\Smartwatch\app\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-maps-8.4.0_88a00545574e9da9fa599bf49348bb412fe286f8.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andrew\Documents\GitHub\Smartwatch\Smartwatch\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="fef2b3e4b6b1b0e5fe7b69fa137a5fa55a3182ab">
+        <dex dex="C:\Users\Andrew\Documents\GitHub\Smartwatch\Smartwatch\app\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-base-8.4.0_2171b730ea9ed6f2c2a86bbe643478f8dc7f9bed.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andrew\AppData\Local\Android\sdk1\extras\android\m2repository\com\android\support\support-annotations\23.1.1\support-annotations-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="C:\Users\Andrew\Documents\GitHub\Smartwatch\Smartwatch\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.1_96d8ffacbef2b3166b1c89fc1d8388898370f89f.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andrew\Documents\GitHub\Smartwatch\Smartwatch\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="C:\Users\Andrew\Documents\GitHub\Smartwatch\Smartwatch\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.1.1_a14fdad014f2084466e0123264dbd48a740d1cbd.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andrew\Documents\GitHub\Smartwatch\Smartwatch\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="C:\Users\Andrew\Documents\GitHub\Smartwatch\Smartwatch\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.1.1_78c3418edf7fe562777751fb96d8b4fcdc6e514b.jar" />
+    </item>
+
+</items>
