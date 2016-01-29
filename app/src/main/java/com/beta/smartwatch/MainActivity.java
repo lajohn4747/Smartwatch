@@ -41,6 +41,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -79,8 +80,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public String weatherDescription;
     public Calendar cal = Calendar.getInstance();
     public String date = cal.getTime().toString();
-    public String day = date.substring(0,10);
-    public String time = date.substring(11,16);
+    public String day = date.substring(0, 10);
+    public String am_pm = cal.getDisplayName(Calendar.AM_PM,Calendar.SHORT,Locale.US);
+    public String time = cal.get(Calendar.HOUR) + ":" +
+            cal.get(Calendar.MINUTE) +
+            am_pm;
 
     ArrayAdapter<BluetoothDevice> pairedDeviceAdapter;
     private UUID myUUID;
