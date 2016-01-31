@@ -80,11 +80,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public String weatherDescription;
     public Calendar cal = Calendar.getInstance();
     public String date = cal.getTime().toString();
-    public String day = date.substring(0, 10);
-    public String am_pm = cal.getDisplayName(Calendar.AM_PM,Calendar.SHORT,Locale.US);
-    public String time = cal.get(Calendar.HOUR) + ":" +
-            cal.get(Calendar.MINUTE) +
-            am_pm;
+    public String day = date.substring(4, 10);
+    public String dayOfWeek =date.substring(0, 3);
+    public String am_pm = cal.getDisplayName(Calendar.AM_PM, Calendar.SHORT, Locale.US);
+    public int hrs = cal.get(Calendar.HOUR);
+    public int mnts = cal.get(Calendar.MINUTE);
+    public String curTime = String.format("%d:%02d", hrs, mnts);
+    public String time = curTime + am_pm;
 
     ArrayAdapter<BluetoothDevice> pairedDeviceAdapter;
     private UUID myUUID;
@@ -111,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         weatherMap.put("low","Low");
         weatherMap.put("clk","Time");
         weatherMap.put("dat","Date");
+        weatherMap.put("day","Day");
     }
 
     public static MainActivity getInstance() {
@@ -261,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 String sunset = astronomy.getString("sunset");
                 String high = weat.getString("maxtempF");
                 String low = weat.getString("mintempF");
-                weatherArray = Arrays.asList("dat",day,"clk",time,"fee",feels_like,"hum",humidity,"tmp",temperature,"pre",precipitation,"des",description,"sur",sunrise,"sus",sunset,"hig",high,"low",low);
+                weatherArray = Arrays.asList("dat",day,"day",dayOfWeek,"clk",time,"fee",feels_like,"hum",humidity,"tmp",temperature,"pre",precipitation,"des",description,"sur",sunrise,"sus",sunset,"hig",high,"low",low);
                 weatherDescription = "fee " + feels_like+ "hum " + humidity + "tmp " + temperature
                         + "pre " + precipitation + "des " + description + "sur " + sunrise +
                         "sus " + sunset + "hig " + high + "low " + low;
