@@ -374,6 +374,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             public void run() {
                 handler.post(new Runnable(){
                     public void run(){
+                        cal = Calendar.getInstance();
+                        date = cal.getTime().toString();
+                        day = date.substring(4, 10);
+                        dayOfWeek =date.substring(0, 3);
+                        am_pm = cal.getDisplayName(Calendar.AM_PM, Calendar.SHORT, Locale.US);
+                        hrs = cal.get(Calendar.HOUR);
+                        mnts = cal.get(Calendar.MINUTE);
+                        curTime = String.format("%d:%02d", hrs, mnts);
+                        time = curTime + am_pm;
                         if(myThreadConnected!=null && weatherArray != null){
                             int char_num = 0;
                             List<String> weatherStringsToSend = new ArrayList<String>();
@@ -413,9 +422,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
-                                //byte[] dateBytes = date.getBytes();
-                                //myThreadConnected.write(dateBytes);
-                                //myThreadConnected.write(NewLine);
                             }
                         }
                     }
