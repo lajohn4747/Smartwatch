@@ -411,7 +411,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                             Log.d("Bluetooth Message(s)", weatherStringsToSend.toString());
                             for (String sendString:weatherStringsToSend) {
                                 Log.d("Sending Following",sendString);
-                                //byte[] bytesToSend = weatherDescription.getBytes();
                                 byte[] bytesToSend = sendString.getBytes();
                                 myThreadConnected.write(bytesToSend);
                                 byte[] NewLine = "\n".getBytes();
