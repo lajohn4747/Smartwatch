@@ -69,9 +69,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public String mArtist = "None";
     public String mTrack = "None";
     public String mAlbum = "None";
-    public final String mTogglePause = "t";
-    public final String mNext = "n";
-    public final String mPrevious = "p";
+    public final String mTogglePause = "^";
+    public final String mNext = ">";
+    public final String mPrevious = "<";
 
     private static final int REQUEST_ENABLE_BT = 1;
     private final String delimiter = "&;";
@@ -417,21 +417,21 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                             String line;
                             try {
                                 while ((line = reader.readLine()) != null) {
-                                    out += line;
+                                    out = line;
                                     Log.d("out",out);
-
+                                    if (out.contains(mTogglePause)) {
+                                        togglePause(null);
+                                    } else if (out.contains(mPrevious)) {
+                                        previous(null);
+                                    } else if (out.contains(mNext)) {
+                                        next(null);
+                                    }
                                     reader.close();
                                 }
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            if (out.equals(mTogglePause)) {
-                                togglePause(null);
-                            } else if (out.equals(mPrevious)) {
-                                previous(null);
-                            } else if (out.equals(mNext)) {
-                                next(null);
-                            }
+
                         }
                     }
                 });
@@ -694,11 +694,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     bytes = connectedInputStream.read(buffer);
                     String strReceived = new String(buffer, 0, bytes);
                     Log.d("Received",strReceived);
-                    if (strReceived.contains("p")) {
+                    if (strReceived.contains(mPrevious)) {
                         previous(null);
-                    } else if (strReceived.contains("t")) {
+                    } else if (strReceived.contains(mTogglePause)) {
                         togglePause(null);
-                    } else if (strReceived.contains("n")) {
+                    } else if (strReceived.contains(mNext)) {
                         next(null);
                     }
                     runOnUiThread(new Runnable(){

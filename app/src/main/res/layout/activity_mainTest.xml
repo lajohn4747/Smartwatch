@@ -143,13 +143,20 @@
                     android:background="@color/colorLight"
                     android:layout_weight="1" />
 
-                <TextView
+                <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Last Text"
-                    android:id="@+id/LastText"
-                    android:layout_weight="1"
-                    android:textColor="@color/colorDark" />
+                    android:id="@+id/scrollView2" >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Last Text"
+                        android:id="@+id/LastText"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorDark" />
+                </ScrollView>
+
             </FrameLayout>
 
             <TextView
