@@ -20,7 +20,7 @@ public class GetWeather extends AsyncTask<String, String, String> {
     protected String doInBackground(String... params) {
         //Sample Request: http://api.worldweatheronline.com/premium/v1/weather.ashx?key=xxxxxxxxxxxxx&q=48.85,2.35&num_of_days=2&tp=3&format=xml
         String URLString = "http://api.worldweatheronline.com/free/v2/weather.ashx?key=";
-        String key = "cb0d2e574d06d01aca1c6cc9fbabb";
+        String key = "aee198247739f3c8feb5a3503948d";
         String latitude = params[0].substring(0,params[0].indexOf('.')+4);
         String longitude = params[1].substring(0,params[1].indexOf('.')+4);
         String day_num = "1";
