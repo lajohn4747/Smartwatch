@@ -35,8 +35,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,6 +69,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public String mArtist = "None";
     public String mTrack = "None";
     public String mAlbum = "None";
+    public final String mTogglePause = "t";
+    public final String mNext = "n";
+    public final String mPrevious = "p";
 
     private static final int REQUEST_ENABLE_BT = 1;
     private final String delimiter = "&;";
@@ -79,7 +84,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     TextView textInfo;
     ListView listViewPairedDevice;
     Timer timer;
+    Timer listenTimer;
     TimerTask timerTask;
+    TimerTask listenTimerTask;
     final Handler handler = new Handler();
     private final int timeInterval = 15000;
     private List<String> weatherArray;
@@ -207,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     protected void onResume() {
         super.onResume();
         startTimer();
+        //startListenTimer();
     }
 
 
@@ -348,15 +356,28 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
 
 
-        Log.d("AudioMode",Integer.toString(mAudioManager.getMode()));
+        Log.d("AudioMode", Integer.toString(mAudioManager.getMode()));
     }
 
     public void next(View view) {
         AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         Log.d("Next", "Clicked");
             Intent i = new Intent(SERVICECMD);
-            i.putExtra(CMDNAME , CMDNEXT );
+            i.putExtra(CMDNAME, CMDNEXT);
             MainActivity.this.sendBroadcast(i);
+    }
+
+    public void startListenTimer() {
+        listenTimer = new Timer();
+        initializeListenTimerTask();
+        listenTimer.schedule(listenTimerTask, 1000, 1);
+    }
+
+    public void stopListenTimerTask(View v) {
+        if (listenTimer != null) {
+            listenTimer.cancel();
+            listenTimer = null;
+        }
     }
 
     //start timer function
@@ -382,6 +403,41 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
     }
 
+    public void initializeListenTimerTask() {
+        listenTimerTask = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable(){
+                    public void run() {
+                        if(myThreadConnected!=null){
+                            Log.d("myThreadConnected","True");
+                            InputStream in = myThreadConnected.connectedInputStream;
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                            String out = "";
+                            String line;
+                            try {
+                                while ((line = reader.readLine()) != null) {
+                                    out += line;
+                                    Log.d("out",out);
+
+                                    reader.close();
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            if (out.equals(mTogglePause)) {
+                                togglePause(null);
+                            } else if (out.equals(mPrevious)) {
+                                previous(null);
+                            } else if (out.equals(mNext)) {
+                                next(null);
+                            }
+                        }
+                    }
+                });
+            }
+        };
+    }
     public void initializeTimerTask(){
         timerTask = new TimerTask() {
             @Override
@@ -632,11 +688,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             while (true) {
                 try {
                     bytes = connectedInputStream.read(buffer);
+                    String strReceived = new String(buffer, 0, bytes);
+                    Log.d("Received",strReceived);
+                    if (strReceived.contains("p")) {
+                        previous(null);
+                    } else if (strReceived.contains("t")) {
+                        togglePause(null);
+                    } else if (strReceived.contains("n")) {
+                        next(null);
+                    }
                     runOnUiThread(new Runnable(){
 
                         @Override
                         public void run() {
-
                         }});
 
                 } catch (IOException e) {
@@ -698,7 +762,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             track = intent.getStringExtra("track");
         }
 
-        Log.d("Music",artist+":"+album+":"+track);
+        Log.d("Music", artist + ":" + album + ":" + track);
         TextView musicInfo = (TextView) findViewById(R.id.musicInfo);
         musicInfo.setText(track + "\n" + artist + "\n" + album);
         mTrack = track;
