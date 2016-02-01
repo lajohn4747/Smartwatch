@@ -6,18 +6,15 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.location.Location;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -749,28 +746,30 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         String action = intent.getAction();
         String cmd = intent.getStringExtra("command");
         Log.d("onReceive ", action + " / " + cmd);
-        String artist = "unknown";
-        String album = "unknown";
-        String track = "unknown";
 
-        if (intent.getStringExtra("artist") != null) {
-            artist = intent.getStringExtra("artist");
+        if (!action.equals("com.android.music.playstatechanged")) {
+            String artist = "unknown";
+            String album = "unknown";
+            String track = "unknown";
+            if (intent.getStringExtra("artist") != null) {
+                artist = intent.getStringExtra("artist");
+            }
+
+            if (intent.getStringExtra("album") != null) {
+                album = intent.getStringExtra("album");
+            }
+
+            if (intent.getStringExtra("track") != null) {
+                track = intent.getStringExtra("track");
+            }
+
+            Log.d("Music", artist + ":" + album + ":" + track);
+            TextView musicInfo = (TextView) findViewById(R.id.musicInfo);
+            musicInfo.setText(track + "\n" + artist + "\n" + album);
+            mTrack = track;
+            mArtist = artist;
+            mAlbum = album;
         }
-
-        if (intent.getStringExtra("album") != null) {
-            album = intent.getStringExtra("album");
-        }
-
-        if (intent.getStringExtra("track") != null) {
-            track = intent.getStringExtra("track");
-        }
-
-        Log.d("Music", artist + ":" + album + ":" + track);
-        TextView musicInfo = (TextView) findViewById(R.id.musicInfo);
-        musicInfo.setText(track + "\n" + artist + "\n" + album);
-        mTrack = track;
-        mArtist = artist;
-        mAlbum = album;
     }
 };
 
