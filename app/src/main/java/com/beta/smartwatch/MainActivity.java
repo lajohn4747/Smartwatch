@@ -300,7 +300,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                 }
                 TextView temperatureTextView = (TextView) findViewById(R.id.Temperature);
-                temperatureTextView.setText("Temperature:\n" + temperature);
+                temperatureTextView.setText("Temperature: " + temperature+"F");
                 weatherTextView.setText(wText);
                 //TextView weatherTextView = (TextView) findViewById(R.id.Weather);
                 //weatherTextView.setText("Weather\nFeels Like: " + feels_like);

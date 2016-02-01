@@ -23,7 +23,9 @@
             android:layout_weight=".25"
             android:elegantTextHeight="false"
             android:textSize="20dp"
-            android:textIsSelectable="false" />
+            android:textIsSelectable="false"
+            android:layout_gravity="center"
+            android:gravity="center_vertical" />
 
         <ImageButton
             android:layout_width="0dp"
@@ -70,7 +72,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/weatherBackGround"
                 android:layout_weight="1"
-                android:background="#ff2828" />
+                android:background="@color/colorDark" />
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -82,7 +84,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Weather Information"
-                    android:id="@+id/weather" />
+                    android:id="@+id/weather"
+                    android:textColor="@color/colorLight" />
             </ScrollView>
         </FrameLayout>
 
@@ -92,38 +95,73 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
 
-            <ScrollView
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:id="@+id/scrollViewMusic"
-                android:layout_weight="1" >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:text="Music"
-                android:id="@+id/musicInfo"/>
-            </ScrollView>
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/musicBackGround"
+                    android:focusable="false"
+                    android:background="@color/colorLight" />
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/scrollViewMusic"
+                    android:layout_weight="1" >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:text="Music"
+                    android:id="@+id/musicInfo"
+                    android:textColor="@color/colorDark" />
+                </ScrollView>
+
+            </FrameLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="Location"
                 android:id="@+id/Location"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textColor="@color/colorDark" />
 
-            <TextView
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:text="Last Text"
-                android:id="@+id/LastText"
-                android:layout_weight="1" />
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/lastTextBackGround"
+                    android:focusable="false"
+                    android:background="@color/colorLight"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Last Text"
+                    android:id="@+id/LastText"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorDark" />
+            </FrameLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="Temperature"
                 android:id="@+id/Temperature"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textSize="20dp"
+                android:textColor="@color/colorDark"
+                android:gravity="center_vertical|fill_horizontal" />
+
         </LinearLayout>
     </LinearLayout>
 
