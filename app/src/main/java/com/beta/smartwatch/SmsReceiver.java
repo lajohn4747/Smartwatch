@@ -34,7 +34,7 @@ public class SmsReceiver extends BroadcastReceiver {
                     String message = currentMessage.getDisplayMessageBody();
                     MainActivity.getInstance().textToBT("txt" + message +"&;");
                     TimeUnit.SECONDS.sleep(1);
-                    MainActivity.getInstance().textToBT("num" + senderNum + "&;");
+                    MainActivity.getInstance().textToBT("frm" + senderNum + "&;");
 
                     Log.d("SmsReceiver", "senderNum: " + senderNum + "; message: " + message);
                     MainActivity mainActivity = MainActivity.getInstance();
