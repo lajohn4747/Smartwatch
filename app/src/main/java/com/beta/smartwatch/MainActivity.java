@@ -5,8 +5,10 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.media.AudioManager;
@@ -61,6 +63,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public static final String SERVICECMD = "com.android.music.musicservicecommand";
     public static final String CMDNAME = "command";
     public static final String CMDSTOP = "stop";
+    public static final String CMDPLAY = "play";
+    public String mArtist = "None";
+    public String mTrack = "None";
+    public String mAlbum = "None";
 
     private static final int REQUEST_ENABLE_BT = 1;
     private final String delimiter = "&;";
@@ -162,6 +168,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         String stInfo = bluetoothAdapter.getName() + "\n" +
                 bluetoothAdapter.getAddress();
+
+        IntentFilter iF = new IntentFilter();
+        iF.addAction("com.android.music.metachanged");
+        iF.addAction("com.android.music.playstatechanged");
+        iF.addAction("com.android.music.playbackcomplete");
+        iF.addAction("com.android.music.queuechanged"); registerReceiver(mReceiver, iF);
     }
 
     @Override
@@ -315,34 +327,36 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public void previous(View view) {
         AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         Log.d("Previous","Clicked");
-        if(mAudioManager.isMusicActive()) {
             Intent i = new Intent(SERVICECMD);
             i.putExtra(CMDNAME , CMDPREVIOUS );
             MainActivity.this.sendBroadcast(i);
-        }
+
     }
 
     public void togglePause(View view) {
         AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        Log.d("TogglePause","Clicked");
+        Log.d("toggle_pause","Clicked");
         Log.d("AudioMode", Integer.toString(mAudioManager.getMode()));
-
         if(mAudioManager.isMusicActive()) {
             Intent i = new Intent(SERVICECMD);
             i.putExtra(CMDNAME , CMDPAUSE );
             MainActivity.this.sendBroadcast(i);
+        } else {
+            Intent i = new Intent(SERVICECMD);
+            i.putExtra(CMDNAME, CMDPLAY);
+            MainActivity.this.sendBroadcast(i);
         }
+
+
         Log.d("AudioMode",Integer.toString(mAudioManager.getMode()));
     }
 
     public void next(View view) {
         AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         Log.d("Next", "Clicked");
-        if(mAudioManager.isMusicActive()) {
             Intent i = new Intent(SERVICECMD);
             i.putExtra(CMDNAME , CMDNEXT );
             MainActivity.this.sendBroadcast(i);
-        }
     }
 
     //start timer function
@@ -658,6 +672,39 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 e.printStackTrace();
             }
         }
+
+
     }
+
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() { @Override
+                                                                    public void onReceive(Context context, Intent intent)
+    {
+        String action = intent.getAction();
+        String cmd = intent.getStringExtra("command");
+        Log.d("onReceive ", action + " / " + cmd);
+        String artist = "unknown";
+        String album = "unknown";
+        String track = "unknown";
+
+        if (intent.getStringExtra("artist") != null) {
+            artist = intent.getStringExtra("artist");
+        }
+
+        if (intent.getStringExtra("album") != null) {
+            album = intent.getStringExtra("album");
+        }
+
+        if (intent.getStringExtra("track") != null) {
+            track = intent.getStringExtra("track");
+        }
+
+        Log.d("Music",artist+":"+album+":"+track);
+        TextView musicInfo = (TextView) findViewById(R.id.musicInfo);
+        musicInfo.setText(track + "\n" + artist + "\n" + album);
+        mTrack = track;
+        mArtist = artist;
+        mAlbum = album;
+    }
+};
 
 }

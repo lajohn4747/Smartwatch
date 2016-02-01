@@ -10,11 +10,46 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.beta.smartwatch.MainActivity">
 
-    <TextClock
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:id="@+id/TimeDate"
-        android:layout_weight=".4" />
+        android:layout_weight=".4">
+
+        <TextClock
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/TimeDate"
+            android:layout_weight=".25" />
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/previous"
+            android:layout_weight=".25"
+            android:background="@drawable/previous"
+            android:baselineAlignBottom="true"
+            android:onClick="previous" />
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/togglePause"
+            android:layout_weight=".25"
+            android:background="@drawable/toggle_pause"
+            android:baselineAlignBottom="true"
+            android:onClick="togglePause" />
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/next"
+            android:layout_weight=".25"
+            android:background="@drawable/next"
+            android:baselineAlignBottom="true"
+            android:onClick="next"
+            android:adjustViewBounds="true" />
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -31,7 +66,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Text"
+                android:text="Weather Information"
                 android:id="@+id/weather" />
         </ScrollView>
 
@@ -40,6 +75,18 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/scrollViewMusic"
+                android:layout_weight="1" >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:text="Music"
+                android:id="@+id/musicInfo"/>
+            </ScrollView>
 
             <TextView
                 android:layout_width="match_parent"
