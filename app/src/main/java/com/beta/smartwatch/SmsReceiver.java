@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by Michael on 1/13/16.
  */
@@ -31,6 +33,8 @@ public class SmsReceiver extends BroadcastReceiver {
                     String senderNum = phoneNumber;
                     String message = currentMessage.getDisplayMessageBody();
                     MainActivity.getInstance().textToBT("txt" + message +"&;");
+                    TimeUnit.SECONDS.sleep(1);
+                    MainActivity.getInstance().textToBT("num" + senderNum + "&;");
 
                     Log.d("SmsReceiver", "senderNum: " + senderNum + "; message: " + message);
                     MainActivity mainActivity = MainActivity.getInstance();
