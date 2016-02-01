@@ -505,7 +505,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             pairedDeviceArrayList = new ArrayList<BluetoothDevice>();
 
             for (BluetoothDevice device : pairedDevices) {
-                pairedDeviceArrayList.add(device);
+                Log.d("Bluetooth Device",device.toString());
+                if (device.toString().equals("30:14:06:06:15:17")){
+                    Log.d("Found","It");
+                    pairedDeviceArrayList.add(device);
+                }
             }
 
             pairedDeviceAdapter = new ArrayAdapter<BluetoothDevice>(this,
